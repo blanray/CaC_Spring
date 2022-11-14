@@ -19,4 +19,21 @@ public class Controllers {
     public String seleccionarTiposProductos(){
         return "todos los productos";
     }
+
+    @GetMapping("/buscar_tipoSPorId")
+    public String seleccionarTiposPorId(){
+        return "todos los productos";
+    }
+
+    @PostMapping("/craar_producto")
+    public String crearProducto(){
+        return "todos los productos";
+    }
+
+    @PostMapping("/craar_tipoProducto")
+    public String crearTipoProducto(){
+        return "todos los productos";
+    }
+
+
 }
