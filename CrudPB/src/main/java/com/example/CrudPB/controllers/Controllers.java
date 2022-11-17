@@ -1,18 +1,23 @@
 package com.example.CrudPB.controllers;
 
+import com.example.CrudPB.service.IProductoService;
+import com.example.CrudPB.service.ProductoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.List;
-
 @RestController
 public class Controllers {
 
+    private IProductoService productoService;
+
+    public Controllers(ProductoService productoService){
+        this.productoService= productoService;
+    }
+
     @GetMapping("/listar_productos")
-    public String seleccionarProductos(){
-        return "todos los productos";
+    public ResponseEntity<?> listarProductos(){
+        return new ResponseEntity<>(productoService.listarProductos(), HttpStatus.OK);
     }
 
     @GetMapping("/listar_tipoSProductos")
@@ -34,6 +39,5 @@ public class Controllers {
     public String crearTipoProducto(){
         return "todos los productos";
     }
-
 
 }
