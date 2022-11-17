@@ -4,10 +4,12 @@ import com.example.CrudPB.dto.request.ProductoDto;
 import com.example.CrudPB.entities.Producto;
 import com.example.CrudPB.repository.IProductoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ProductoService implements IProductoService{
 
     private IProductoRepository productoRepository;
