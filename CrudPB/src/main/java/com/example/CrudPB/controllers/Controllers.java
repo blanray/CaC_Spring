@@ -1,5 +1,7 @@
 package com.example.CrudPB.controllers;
 
+import com.example.CrudPB.dto.request.ProductoDto;
+import com.example.CrudPB.dto.request.TipoProductoDto;
 import com.example.CrudPB.service.IProductoService;
 import com.example.CrudPB.service.ITipoProductoService;
 import com.example.CrudPB.service.ProductoService;
@@ -25,9 +27,9 @@ public class Controllers {
         return "todos los productos";
     }
 
-    @PostMapping("/craar_producto")
-    public String crearProducto(){
-        return "todos los productos";
+    @PostMapping("/crear_productos")
+    public ResponseEntity<?> crearProducto(@RequestBody ProductoDto productoDto){
+        return new ResponseEntity<>(productoService.crearProducto(productoDto), HttpStatus.CREATED);
     }
 
 }
