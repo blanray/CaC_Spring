@@ -1,4 +1,4 @@
-package com.example.CrudPB.dto.request;
+package com.example.CrudPB.dto.response;
 
 import lombok.*;
 

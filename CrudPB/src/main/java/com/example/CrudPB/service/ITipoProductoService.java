@@ -1,10 +1,7 @@
 package com.example.CrudPB.service;
 
 
-import com.example.CrudPB.dto.request.TipoProductoDto;
-import com.example.CrudPB.dto.response.SuccessDto;
-import com.example.CrudPB.entities.TipoProducto;
-import org.springframework.http.ResponseEntity;
+import com.example.CrudPB.dto.response.TipoProductoDto;
 
 import java.util.List;
 
@@ -14,5 +11,7 @@ public interface ITipoProductoService {
 
     public TipoProductoDto crearTipoProducto(TipoProductoDto tipoProductoDto);
 
+    public TipoProductoDto encontrarTipoPorID(Integer idTipoProducto);
 
+    public TipoProductoDto actualizarTipoPorID(Integer idTipoProducto, TipoProductoDto tipoProductoDto);
 }
