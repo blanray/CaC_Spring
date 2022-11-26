@@ -1,5 +1,6 @@
 package com.example.CrudPB.controllers;
 
+import com.example.CrudPB.dto.request.ReqProductoIDDto;
 import com.example.CrudPB.dto.request.ReqTipoIDDto;
 import com.example.CrudPB.dto.response.TipoProductoDto;
 import com.example.CrudPB.service.ITipoProductoService;
@@ -36,5 +37,12 @@ public class ControllersTipo {
         ReqTipoIDDto reqTipoIDDto = new ReqTipoIDDto(id);
         return new ResponseEntity<>(tipoProductoService.actualizarTipoPorID(reqTipoIDDto.getId(), tipoProductoDto), HttpStatus.OK);
     }
+
+    @PostMapping("/borrar_tipoProducto/{id}")
+    public ResponseEntity<?> borrarTipoPorID(@PathVariable Integer id){
+        ReqProductoIDDto reqProductoIDDto = new ReqProductoIDDto(id);
+        return new ResponseEntity<>(tipoProductoService.borrarTipoPorID(reqProductoIDDto.getId()), HttpStatus.OK);
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.CrudPB.service;
 
+import com.example.CrudPB.dto.response.SuccessDto;
 import com.example.CrudPB.dto.response.TipoProductoDto;
 import com.example.CrudPB.entities.TipoProducto;
 import com.example.CrudPB.exceptions.RecordNotFoundException;
@@ -60,6 +61,23 @@ public class TipoProductoService implements ITipoProductoService {
         TipoProductoDto miRegistroActualizado = new TipoProductoDto(miTemp.getTip_id(), miTemp.getTip_descripcion());
         return miRegistroActualizado;
 }
+
+    public SuccessDto borrarTipoPorID(Integer idTipoProducto){
+
+        Optional<TipoProducto> miTemp = tipoProductoRepository.findById(idTipoProducto);
+        if (miTemp.isPresent()){
+            tipoProductoRepository.deleteById(idTipoProducto);
+            String respuesta = String.format("El tipo de producto con ID %s fue borrado exitosamente", idTipoProducto);
+            SuccessDto miRespuestaTemp = new SuccessDto(respuesta);
+            return miRespuestaTemp ;
+        }
+        else {
+            throw new RecordNotFoundException("Tipo Producto", "ID", idTipoProducto);
+        }
+
+
+
+    }
 
 
 }

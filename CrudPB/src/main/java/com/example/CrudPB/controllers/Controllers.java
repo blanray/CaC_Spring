@@ -3,6 +3,7 @@ package com.example.CrudPB.controllers;
 import com.example.CrudPB.dto.request.ReqProductoIDDto;
 import com.example.CrudPB.dto.request.ReqTipoIDDto;
 import com.example.CrudPB.dto.response.ProductoDto;
+import com.example.CrudPB.dto.response.TipoProductoDto;
 import com.example.CrudPB.service.IProductoService;
 import com.example.CrudPB.service.ProductoService;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,17 @@ public class Controllers {
     public ResponseEntity<?> encontrarProductoPorID(@PathVariable Integer id){
         ReqProductoIDDto reqProductoIDDto = new ReqProductoIDDto(id);
         return new ResponseEntity<>(productoService.encontrarProductoPorID(reqProductoIDDto.getId()), HttpStatus.OK);
+    }
+
+    @PostMapping("/actualizar_PorID/{id}")
+    public ResponseEntity<?> actualizaroPorID(@PathVariable Integer id, @RequestBody ProductoDto ProductoDto){
+        ReqProductoIDDto reqProductoIDDto = new ReqProductoIDDto(id);
+        return new ResponseEntity<>(productoService.actualizaroPorID(reqProductoIDDto.getId(), ProductoDto), HttpStatus.OK);
+    }
+    @PostMapping("/borrar_producto/{id}")
+    public ResponseEntity<?> borrarProducto(@PathVariable Integer id){
+        ReqProductoIDDto reqProductoIDDto = new ReqProductoIDDto(id);
+        return new ResponseEntity<>(productoService.borrarProducto(reqProductoIDDto.getId()), HttpStatus.OK);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.CrudPB.service;
 
 import com.example.CrudPB.dto.response.ProductoDto;
+import com.example.CrudPB.dto.response.SuccessDto;
 import com.example.CrudPB.dto.response.TipoProductoDto;
 
 import java.util.List;
@@ -11,7 +12,10 @@ public interface IProductoService {
 
     public ProductoDto crearProducto(ProductoDto ProductoDto);
 
-    public void borrarProducto(Integer id);
+    public SuccessDto borrarProducto(Integer idProducto);
 
     public ProductoDto  encontrarProductoPorID(Integer idProducto);
+
+    public ProductoDto actualizaroPorID(Integer idProducto, ProductoDto ProductoDto);
+
 }

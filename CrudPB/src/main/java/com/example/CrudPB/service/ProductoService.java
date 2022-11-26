@@ -1,6 +1,7 @@
 package com.example.CrudPB.service;
 
 import com.example.CrudPB.dto.response.ProductoDto;
+import com.example.CrudPB.dto.response.SuccessDto;
 import com.example.CrudPB.dto.response.TipoProductoDto;
 import com.example.CrudPB.entities.Producto;
 import com.example.CrudPB.entities.TipoProducto;
@@ -41,8 +42,20 @@ public class ProductoService implements IProductoService{
     }
 
     @Override
-    public void borrarProducto(Integer id) {
+    public SuccessDto borrarProducto(Integer idProducto) {
+
+        Optional<Producto> miTemp = productoRepository.findById(idProducto);
+        if (miTemp.isPresent()){
+            productoRepository.deleteById(idProducto);
+            String respuesta = String.format("El producto con ID %s fue borrado exitosamente", idProducto);
+            SuccessDto miRespuestaTemp = new SuccessDto(respuesta);
+            return miRespuestaTemp ;
+        }
+        else {
+            throw new RecordNotFoundException("Producto", "ID", idProducto);
+        }
     }
+
 
   @Override
     public ProductoDto encontrarProductoPorID(Integer idProducto){
@@ -56,5 +69,21 @@ public class ProductoService implements IProductoService{
         }
     }
 
+    @Override
+    public ProductoDto actualizaroPorID(Integer idProducto, ProductoDto ProductoDto){
+        Producto miTemp = productoRepository.findById(idProducto).orElseThrow(
+                ()-> new RecordNotFoundException("Producto", "ID", idProducto));
+
+        //OJO QUE NO ESTOY VALIDANDO QUE EL TIPO DE PRODUCTO EXISTA. CORRESPONDE QUE EL SERVICIO DE PRODUCTO TENGA UN TIPO???
+
+        miTemp.setPrd_descripcion(ProductoDto.getPrd_descripcion());
+        miTemp.setPrd_precio(ProductoDto.getPrd_precio());
+        miTemp.setPrd_tip_id(ProductoDto.getPrd_tip_id());
+        miTemp.setPrd_precio(ProductoDto.getPrd_precio());
+        productoRepository.save(miTemp);
+
+        ProductoDto miRegistroActualizado = new ProductoDto(miTemp.getPrd_id(), miTemp.getPrd_descripcion(), miTemp.getPrd_tip_id(), miTemp.getPrd_stock(), miTemp.getPrd_precio());
+        return miRegistroActualizado;
+    }
 
 }
