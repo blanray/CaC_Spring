@@ -6,6 +6,7 @@ import com.example.CrudPB.entities.TipoProducto;
 import com.example.CrudPB.exceptions.RecordNotFoundException;
 import com.example.CrudPB.repository.ITipoProductoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -65,19 +66,24 @@ public class TipoProductoService implements ITipoProductoService {
     public SuccessDto borrarTipoPorID(Integer idTipoProducto){
 
         Optional<TipoProducto> miTemp = tipoProductoRepository.findById(idTipoProducto);
+
         if (miTemp.isPresent()){
+
+            try{
             tipoProductoRepository.deleteById(idTipoProducto);
-            String respuesta = String.format("El tipo de producto con ID %s fue borrado exitosamente", idTipoProducto);
+            String respuesta = String.format("El Tipo de Producto con ID %s fue borrado exitosamente", idTipoProducto);
             SuccessDto miRespuestaTemp = new SuccessDto(respuesta);
-            return miRespuestaTemp ;
+            return miRespuestaTemp ;}
+            catch (DataIntegrityViolationException e){
+                String respuesta = String.format("El Tipo de Producto con ID %s no puede ser borrado por contener Productos asociados", idTipoProducto);
+                SuccessDto miRespuestaTemp = new SuccessDto(respuesta);
+                return miRespuestaTemp ;
+            }
         }
         else {
             throw new RecordNotFoundException("Tipo Producto", "ID", idTipoProducto);
         }
 
-
-
     }
-
 
 }

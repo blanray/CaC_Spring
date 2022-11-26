@@ -8,6 +8,7 @@ import com.example.CrudPB.entities.TipoProducto;
 import com.example.CrudPB.exceptions.RecordNotFoundException;
 import com.example.CrudPB.repository.IProductoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,9 +37,17 @@ public class ProductoService implements IProductoService{
     @Override
     public ProductoDto crearProducto(ProductoDto productoDto){
         Producto miTemporal = new Producto(productoDto.getPrd_id(), productoDto.getPrd_descripcion(), productoDto.getPrd_tip_id(), productoDto.getPrd_stock(), productoDto.getPrd_precio());
-        Producto miTemp = productoRepository.save(miTemporal);
-        ProductoDto miElementoCreado = new ProductoDto(miTemp.getPrd_id(), miTemp.getPrd_descripcion(), miTemp.getPrd_tip_id(),miTemp.getPrd_stock(), miTemp.getPrd_precio());
+
+        try {
+            Producto miTemp = productoRepository.save(miTemporal);
+            ProductoDto miElementoCreado = new ProductoDto(miTemp.getPrd_id(), miTemp.getPrd_descripcion(), miTemp.getPrd_tip_id(), miTemp.getPrd_stock(), miTemp.getPrd_precio());
+            return miElementoCreado ;
+        }
+    catch(DataAccessException e){
+        ProductoDto miElementoCreado = new ProductoDto(0, "ERROR!!! No se pudo crear el producto, verifique si existe el Tipo ", 0, 0, 0);
         return miElementoCreado ;
+
+        }
     }
 
     @Override
