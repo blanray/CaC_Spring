@@ -1,9 +1,7 @@
 package com.example.CrudPB.controllers;
 
 import com.example.CrudPB.dto.request.ReqProductoIDDto;
-import com.example.CrudPB.dto.request.ReqTipoIDDto;
 import com.example.CrudPB.dto.response.ProductoDto;
-import com.example.CrudPB.dto.response.TipoProductoDto;
 import com.example.CrudPB.service.IProductoService;
 import com.example.CrudPB.service.ProductoService;
 import org.springframework.http.HttpStatus;

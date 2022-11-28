@@ -2,9 +2,7 @@ package com.example.CrudPB.service;
 
 import com.example.CrudPB.dto.response.ProductoDto;
 import com.example.CrudPB.dto.response.SuccessDto;
-import com.example.CrudPB.dto.response.TipoProductoDto;
 import com.example.CrudPB.entities.Producto;
-import com.example.CrudPB.entities.TipoProducto;
 import com.example.CrudPB.exceptions.RecordNotFoundException;
 import com.example.CrudPB.repository.IProductoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,14 +35,15 @@ public class ProductoService implements IProductoService{
     @Override
     public ProductoDto crearProducto(ProductoDto productoDto){
         Producto miTemporal = new Producto(productoDto.getPrd_id(), productoDto.getPrd_descripcion(), productoDto.getPrd_tip_id(), productoDto.getPrd_stock(), productoDto.getPrd_precio());
+        ProductoDto miElementoCreado;
 
         try {
             Producto miTemp = productoRepository.save(miTemporal);
-            ProductoDto miElementoCreado = new ProductoDto(miTemp.getPrd_id(), miTemp.getPrd_descripcion(), miTemp.getPrd_tip_id(), miTemp.getPrd_stock(), miTemp.getPrd_precio());
+            miElementoCreado = new ProductoDto(miTemp.getPrd_id(), miTemp.getPrd_descripcion(), miTemp.getPrd_tip_id(), miTemp.getPrd_stock(), miTemp.getPrd_precio());
             return miElementoCreado ;
         }
     catch(DataAccessException e){
-        ProductoDto miElementoCreado = new ProductoDto(0, "ERROR!!! No se pudo crear el producto, verifique si existe el Tipo ", 0, 0, 0);
+            miElementoCreado = new ProductoDto(0, "ERROR!!! No se pudo crear el producto, verifique si existe el Tipo ", 0, 0, 0);
         return miElementoCreado ;
 
         }
@@ -53,11 +52,12 @@ public class ProductoService implements IProductoService{
     @Override
     public SuccessDto borrarProducto(Integer idProducto) {
 
+        SuccessDto miRespuestaTemp;
         Optional<Producto> miTemp = productoRepository.findById(idProducto);
         if (miTemp.isPresent()){
             productoRepository.deleteById(idProducto);
             String respuesta = String.format("El producto con ID %s fue borrado exitosamente", idProducto);
-            SuccessDto miRespuestaTemp = new SuccessDto(respuesta);
+            miRespuestaTemp = new SuccessDto(respuesta);
             return miRespuestaTemp ;
         }
         else {
@@ -69,8 +69,10 @@ public class ProductoService implements IProductoService{
   @Override
     public ProductoDto encontrarProductoPorID(Integer idProducto){
         Optional<Producto> miTemp = productoRepository.findById(idProducto);
+      ProductoDto miElementoCreado;
+
         if (miTemp.isPresent()){
-            ProductoDto miElementoCreado = new ProductoDto(miTemp.get().getPrd_id(), miTemp.get().getPrd_descripcion(), miTemp.get().getPrd_tip_id(), miTemp.get().getPrd_stock(), miTemp.get().getPrd_precio());
+            miElementoCreado = new ProductoDto(miTemp.get().getPrd_id(), miTemp.get().getPrd_descripcion(), miTemp.get().getPrd_tip_id(), miTemp.get().getPrd_stock(), miTemp.get().getPrd_precio());
             return miElementoCreado ;
         }
         else {
@@ -80,6 +82,7 @@ public class ProductoService implements IProductoService{
 
     @Override
     public ProductoDto actualizaroPorID(Integer idProducto, ProductoDto ProductoDto){
+        ProductoDto miRegistroActualizado;
         Producto miTemp = productoRepository.findById(idProducto).orElseThrow(
                 ()-> new RecordNotFoundException("Producto", "ID", idProducto));
 
@@ -90,11 +93,11 @@ public class ProductoService implements IProductoService{
 
          try {
             productoRepository.save(miTemp);
-            ProductoDto miRegistroActualizado = new ProductoDto(miTemp.getPrd_id(), miTemp.getPrd_descripcion(), miTemp.getPrd_tip_id(), miTemp.getPrd_stock(), miTemp.getPrd_precio());
+            miRegistroActualizado = new ProductoDto(miTemp.getPrd_id(), miTemp.getPrd_descripcion(), miTemp.getPrd_tip_id(), miTemp.getPrd_stock(), miTemp.getPrd_precio());
             return miRegistroActualizado;
         }
         catch(DataAccessException e){
-            ProductoDto miRegistroActualizado = new ProductoDto(0, "ERROR!!! No se pudo actualizar el producto, verifique si existe el Tipo ", 0, 0, 0);
+            miRegistroActualizado = new ProductoDto(0, "ERROR!!! No se pudo actualizar el producto, verifique si existe el Tipo ", 0, 0, 0);
             return miRegistroActualizado ;
 
         }

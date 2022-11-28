@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface ITipoProductoService {
 
-    public List<TipoProductoDto> listarTipoProductos();
+     List<TipoProductoDto> listarTipoProductos();
 
-    public TipoProductoDto crearTipoProducto(TipoProductoDto tipoProductoDto);
+     TipoProductoDto crearTipoProducto(TipoProductoDto tipoProductoDto);
 
-    public TipoProductoDto encontrarTipoPorID(Integer idTipoProducto);
+    TipoProductoDto encontrarTipoPorID(Integer idTipoProducto);
 
-    public TipoProductoDto actualizarTipoPorID(Integer idTipoProducto, TipoProductoDto tipoProductoDto);
+    TipoProductoDto actualizarTipoPorID(Integer idTipoProducto, TipoProductoDto tipoProductoDto);
 
-    public SuccessDto borrarTipoPorID(Integer idTipoProducto);
+     SuccessDto borrarTipoPorID(Integer idTipoProducto);
 
 
 }

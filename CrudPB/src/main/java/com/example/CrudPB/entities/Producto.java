@@ -2,7 +2,6 @@ package com.example.CrudPB.entities;
 
 
 import lombok.*;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
 
