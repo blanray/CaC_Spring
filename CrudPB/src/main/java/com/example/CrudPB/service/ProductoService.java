@@ -83,16 +83,26 @@ public class ProductoService implements IProductoService{
         Producto miTemp = productoRepository.findById(idProducto).orElseThrow(
                 ()-> new RecordNotFoundException("Producto", "ID", idProducto));
 
-        //OJO QUE NO ESTOY VALIDANDO QUE EL TIPO DE PRODUCTO EXISTA. CORRESPONDE QUE EL SERVICIO DE PRODUCTO TENGA UN TIPO???
-
         miTemp.setPrd_descripcion(ProductoDto.getPrd_descripcion());
         miTemp.setPrd_precio(ProductoDto.getPrd_precio());
         miTemp.setPrd_tip_id(ProductoDto.getPrd_tip_id());
         miTemp.setPrd_precio(ProductoDto.getPrd_precio());
-        productoRepository.save(miTemp);
 
-        ProductoDto miRegistroActualizado = new ProductoDto(miTemp.getPrd_id(), miTemp.getPrd_descripcion(), miTemp.getPrd_tip_id(), miTemp.getPrd_stock(), miTemp.getPrd_precio());
-        return miRegistroActualizado;
+         try {
+            productoRepository.save(miTemp);
+            ProductoDto miRegistroActualizado = new ProductoDto(miTemp.getPrd_id(), miTemp.getPrd_descripcion(), miTemp.getPrd_tip_id(), miTemp.getPrd_stock(), miTemp.getPrd_precio());
+            return miRegistroActualizado;
+        }
+        catch(DataAccessException e){
+            ProductoDto miRegistroActualizado = new ProductoDto(0, "ERROR!!! No se pudo actualizar el producto, verifique si existe el Tipo ", 0, 0, 0);
+            return miRegistroActualizado ;
+
+        }
+
+
+
+
+
     }
 
 }

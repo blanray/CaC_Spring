@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class Controllers {
 
@@ -22,7 +24,7 @@ public class Controllers {
     }
 
     @PostMapping("/crear_productos")
-    public ResponseEntity<?> crearProducto(@RequestBody ProductoDto productoDto){
+    public ResponseEntity<?> crearProducto(@Valid @RequestBody ProductoDto productoDto){
         return new ResponseEntity<>(productoService.crearProducto(productoDto), HttpStatus.CREATED);
     }
 
@@ -33,7 +35,7 @@ public class Controllers {
     }
 
     @PostMapping("/actualizar_PorID/{id}")
-    public ResponseEntity<?> actualizaroPorID(@PathVariable Integer id, @RequestBody ProductoDto ProductoDto){
+    public ResponseEntity<?> actualizaroPorID(@PathVariable Integer id, @Valid @RequestBody ProductoDto ProductoDto){
         ReqProductoIDDto reqProductoIDDto = new ReqProductoIDDto(id);
         return new ResponseEntity<>(productoService.actualizaroPorID(reqProductoIDDto.getId(), ProductoDto), HttpStatus.OK);
     }
