@@ -18,29 +18,29 @@ public class ControllersTipo {
 
   public ControllersTipo(TipoProductoService tipoProductoService) {this.tipoProductoService = tipoProductoService;}
 
-    @GetMapping("/listar_tiposProductos")
+    @GetMapping("/listar/tiposProductos")
     public ResponseEntity<?> listarTipoProductos(){
         return new ResponseEntity<>(tipoProductoService.listarTipoProductos(), HttpStatus.OK);
     }
 
-    @PostMapping("/crear_tiposProductos")
+    @PostMapping("/crear/tiposProductos")
     public ResponseEntity<?> crearTipoProducto(@Valid @RequestBody TipoProductoDto tipoProductoDto){
         return new ResponseEntity<>(tipoProductoService.crearTipoProducto(tipoProductoDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/buscar_tiposPorID/{id}")
+    @GetMapping("/buscar/tiposPorID/{id}")
     public ResponseEntity<?> encontrarTipoPorID(@PathVariable Integer id){
         ReqTipoIDDto reqTipoIDDto = new ReqTipoIDDto(id);
         return new ResponseEntity<>(tipoProductoService.encontrarTipoPorID(reqTipoIDDto.getId()), HttpStatus.OK);
     }
 
-    @PostMapping("/actualizar_tipoPorID/{id}")
+    @PostMapping("/actualizar/tipoPorID/{id}")
     public ResponseEntity<?> actualizarTipoPorID(@PathVariable Integer id, @Valid @RequestBody TipoProductoDto tipoProductoDto){
         ReqTipoIDDto reqTipoIDDto = new ReqTipoIDDto(id);
         return new ResponseEntity<>(tipoProductoService.actualizarTipoPorID(reqTipoIDDto.getId(), tipoProductoDto), HttpStatus.OK);
     }
 
-    @PostMapping("/borrar_tipoProducto/{id}")
+    @PostMapping("/borrar/tipoProducto/{id}")
     public ResponseEntity<?> borrarTipoPorID(@PathVariable Integer id){
         ReqProductoIDDto reqProductoIDDto = new ReqProductoIDDto(id);
         return new ResponseEntity<>(tipoProductoService.borrarTipoPorID(reqProductoIDDto.getId()), HttpStatus.OK);
