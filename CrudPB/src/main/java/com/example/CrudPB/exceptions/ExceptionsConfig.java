@@ -24,5 +24,13 @@ public class ExceptionsConfig {
         return new ResponseEntity<>(errores, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(RecordNotFoundException.class)
+    public ResponseEntity<?> registroNoEcontrado(RecordNotFoundException ex){
+
+        ErrorDto errores = new ErrorDto(500, ex.getMessage());
+
+        return new ResponseEntity<>(errores, HttpStatus.BAD_REQUEST);
+    }
+
 
 }
