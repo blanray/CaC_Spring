@@ -2,6 +2,7 @@ package com.example.CrudPB.service;
 
 import com.example.CrudPB.dto.response.SuccessDto;
 import com.example.CrudPB.dto.response.TipoProductoDto;
+import com.example.CrudPB.entities.Producto;
 import com.example.CrudPB.entities.TipoProducto;
 import com.example.CrudPB.exceptions.RecordNotFoundException;
 import com.example.CrudPB.repository.ITipoProductoRepository;
@@ -26,6 +27,12 @@ public class TipoProductoService implements ITipoProductoService {
     public List<TipoProductoDto> listarTipoProductos() {
         ObjectMapper mapper = new ObjectMapper();
         List<TipoProducto> tipoProductos = tipoProductoRepository.findAll();
+
+        if (tipoProductos.size()<1) {
+            TipoProducto temp = new TipoProducto(0, "La lista está vacia");
+            tipoProductos.add(temp);
+        }
+
         List<TipoProductoDto> tipoProductoDtos = tipoProductos.stream().map(tPrd -> {
             return new TipoProductoDto(tPrd.getTip_id(), tPrd.getTip_descripcion());
         }).collect(Collectors.toList());
@@ -84,6 +91,22 @@ public class TipoProductoService implements ITipoProductoService {
             throw new RecordNotFoundException("Tipo Producto", "ID", idTipoProducto);
         }
 
+    }
+
+    @Override
+    public SuccessDto borrarAllTipos(){
+
+        try{
+            tipoProductoRepository.deleteAll();
+            String respuesta = "Se ha vaciado exitosamente la lista de Tipos de Producto";
+            SuccessDto miRespuestaTemp = new SuccessDto(respuesta);
+            return miRespuestaTemp;
+        }
+        catch (DataIntegrityViolationException e){
+            String respuesta = "Se produjo un error vaciando la lista de Producto, compruebe que no existan Productos asociados";
+            SuccessDto miRespuestaTemp = new SuccessDto(respuesta);
+            return miRespuestaTemp ;
+        }
     }
 
 }

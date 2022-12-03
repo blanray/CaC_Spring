@@ -7,6 +7,7 @@ import com.example.CrudPB.exceptions.RecordNotFoundException;
 import com.example.CrudPB.repository.IProductoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +27,14 @@ public class ProductoService implements IProductoService{
     public List<ProductoDto> listarProductos(){
         ObjectMapper mapper = new ObjectMapper();
         List<Producto> producto = productoRepository.findAll();
-        List<ProductoDto> productoDtos = producto.stream().map( prd -> {
-            return new ProductoDto(prd.getPrd_id(),prd.getPrd_descripcion(), prd.getPrd_tip_id(), prd.getPrd_stock(), prd.getPrd_precio());
-        }).collect(Collectors.toList());
+        if (producto.size()<1) {
+        Producto temp = new Producto(0, "La lista está vacia", 0, 0, 0);
+        producto.add(temp);
+        }
 
+        List<ProductoDto> productoDtos = producto.stream().map(prd -> {
+            return new ProductoDto(prd.getPrd_id(), prd.getPrd_descripcion(), prd.getPrd_tip_id(), prd.getPrd_stock(), prd.getPrd_precio());
+        }).collect(Collectors.toList());
         return productoDtos;
     }
     @Override
@@ -101,11 +106,26 @@ public class ProductoService implements IProductoService{
             return miRegistroActualizado ;
 
         }
+    }
 
+    @Override
+    public SuccessDto borrarAllProductos(){
 
+        try{
+        productoRepository.deleteAll();
+            String respuesta = "Se ha vaciado exitosamente la lista de Productos";
+            SuccessDto miRespuestaTemp = new SuccessDto(respuesta);
+            return miRespuestaTemp;
+        }
+        catch (DataIntegrityViolationException e){
+            String respuesta = "Se produjo un error vaciando la lista de Productos";
+            SuccessDto miRespuestaTemp = new SuccessDto(respuesta);
+            return miRespuestaTemp ;
+        }
 
 
 
     }
+
 
 }

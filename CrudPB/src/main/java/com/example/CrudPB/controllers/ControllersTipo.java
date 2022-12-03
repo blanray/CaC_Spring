@@ -46,5 +46,9 @@ public class ControllersTipo {
         return new ResponseEntity<>(tipoProductoService.borrarTipoPorID(reqProductoIDDto.getId()), HttpStatus.OK);
     }
 
+    @DeleteMapping("/borrar/tipoProductos")
+    public ResponseEntity<?> borrarAllTipo(){
+        return new ResponseEntity<>(tipoProductoService.borrarAllTipos(), HttpStatus.ACCEPTED);
+    }
 
 }

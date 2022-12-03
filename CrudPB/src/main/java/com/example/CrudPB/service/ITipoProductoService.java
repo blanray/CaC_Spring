@@ -18,5 +18,6 @@ public interface ITipoProductoService {
 
      SuccessDto borrarTipoPorID(Integer idTipoProducto);
 
+    SuccessDto borrarAllTipos();
 
 }

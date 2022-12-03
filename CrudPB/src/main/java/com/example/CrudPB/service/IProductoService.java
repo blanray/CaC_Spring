@@ -18,4 +18,6 @@ public interface IProductoService {
 
      ProductoDto actualizaroPorID(Integer idProducto, ProductoDto ProductoDto);
 
+     SuccessDto borrarAllProductos();
+
 }

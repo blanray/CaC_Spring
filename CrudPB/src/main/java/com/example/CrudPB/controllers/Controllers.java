@@ -43,4 +43,9 @@ public class Controllers {
         return new ResponseEntity<>(productoService.borrarProducto(reqProductoIDDto.getId()), HttpStatus.OK);
     }
 
+    @DeleteMapping("/borrar/productos")
+    public ResponseEntity<?> borrarAllProductos(){
+         return new ResponseEntity<>(productoService.borrarAllProductos(), HttpStatus.ACCEPTED);
+    }
+
 }
