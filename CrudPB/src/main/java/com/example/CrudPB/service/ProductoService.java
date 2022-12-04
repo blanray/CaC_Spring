@@ -141,12 +141,17 @@ public class ProductoService implements IProductoService{
         else{
 
             Comparator<Producto> ordenarStock = Comparator.comparing(Producto::getPrd_stock, Comparator.reverseOrder());
-            List<ProductoDto> productoDtos = producto.stream()
+            Comparator<Producto> ordenarTipo = Comparator.comparing(Producto::getPrd_tip_id);
+            List<Producto> productoTemp = producto.stream()
                     .sorted(ordenarStock)
                     .limit(5)
+                    .collect(Collectors.toList());
+
+            List<ProductoDto> productoDtos = productoTemp.stream()
+                    .sorted(ordenarTipo)
                     .map(prd -> {
-                return new ProductoDto(prd.getPrd_id(), prd.getPrd_descripcion(), prd.getPrd_tip_id(), prd.getPrd_stock(), prd.getPrd_precio());
-            }).collect(Collectors.toList());
+                        return new ProductoDto(prd.getPrd_id(), prd.getPrd_descripcion(), prd.getPrd_tip_id(), prd.getPrd_stock(), prd.getPrd_precio());
+                    }).collect(Collectors.toList());
             return productoDtos;
 
          }
