@@ -48,4 +48,9 @@ public class Controllers {
          return new ResponseEntity<>(productoService.borrarAllProductos(), HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/listar/productos/top5")
+    public ResponseEntity<?> topMayorStock(){
+        return new ResponseEntity<>(productoService.topMayorStock(), HttpStatus.OK);
+    }
+
 }

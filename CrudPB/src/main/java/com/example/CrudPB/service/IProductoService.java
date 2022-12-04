@@ -20,4 +20,6 @@ public interface IProductoService {
 
      SuccessDto borrarAllProductos();
 
+     List<ProductoDto> topMayorStock();
+
 }

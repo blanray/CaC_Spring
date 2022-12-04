@@ -25,8 +25,7 @@ public class TipoProductoService implements ITipoProductoService {
 
     @Override
     public List<TipoProductoDto> listarTipoProductos() {
-        ObjectMapper mapper = new ObjectMapper();
-        List<TipoProducto> tipoProductos = tipoProductoRepository.findAll();
+           List<TipoProducto> tipoProductos = tipoProductoRepository.findAll();
 
         if (tipoProductos.size()<1) {
             TipoProducto temp = new TipoProducto(0, "La lista está vacia");

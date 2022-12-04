@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,8 +26,7 @@ public class ProductoService implements IProductoService{
 
     @Override
     public List<ProductoDto> listarProductos(){
-        ObjectMapper mapper = new ObjectMapper();
-        List<Producto> producto = productoRepository.findAll();
+          List<Producto> producto = productoRepository.findAll();
         if (producto.size()<1) {
         Producto temp = new Producto(0, "La lista está vacia", 0, 0, 0);
         producto.add(temp);
@@ -122,10 +122,35 @@ public class ProductoService implements IProductoService{
             SuccessDto miRespuestaTemp = new SuccessDto(respuesta);
             return miRespuestaTemp ;
         }
-
-
-
     }
 
+
+    @Override
+    public List<ProductoDto> topMayorStock(){
+        List<Producto> producto = productoRepository.findAll();
+        if (producto.size()<1) {
+            Producto temp = new Producto(0, "La lista está vacia", 0, 0, 0);
+            producto.add(temp);
+
+            List<ProductoDto> productoDtos = producto.stream().map(prd -> {
+                return new ProductoDto(prd.getPrd_id(), prd.getPrd_descripcion(), prd.getPrd_tip_id(), prd.getPrd_stock(), prd.getPrd_precio());
+            }).collect(Collectors.toList());
+            return productoDtos;
+
+        }
+        else{
+
+            Comparator<Producto> ordenarStock = Comparator.comparing(Producto::getPrd_stock, Comparator.reverseOrder());
+            List<ProductoDto> productoDtos = producto.stream()
+                    .sorted(ordenarStock)
+                    .limit(5)
+                    .map(prd -> {
+                return new ProductoDto(prd.getPrd_id(), prd.getPrd_descripcion(), prd.getPrd_tip_id(), prd.getPrd_stock(), prd.getPrd_precio());
+            }).collect(Collectors.toList());
+            return productoDtos;
+
+         }
+
+    }
 
 }
