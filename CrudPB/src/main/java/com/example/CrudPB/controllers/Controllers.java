@@ -53,4 +53,11 @@ public class Controllers {
         return new ResponseEntity<>(productoService.topMayorStock(), HttpStatus.OK);
     }
 
+    @GetMapping("/listar/productosTipo/{id}")
+    public ResponseEntity<?> precioPorTipo(@PathVariable Integer id){
+        ReqProductoIDDto reqProductoIDDto = new ReqProductoIDDto(id);
+        return new ResponseEntity<>(productoService.precioPorTipo(reqProductoIDDto.getId()), HttpStatus.OK);
+    }
+
+
 }

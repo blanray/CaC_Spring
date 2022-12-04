@@ -22,4 +22,6 @@ public interface IProductoService {
 
      List<ProductoDto> topMayorStock();
 
+    List<ProductoDto> precioPorTipo(Integer idTipoProducto);
+
 }

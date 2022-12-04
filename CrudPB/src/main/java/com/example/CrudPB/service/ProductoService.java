@@ -158,4 +158,33 @@ public class ProductoService implements IProductoService{
 
     }
 
+    @Override
+    public List<ProductoDto> precioPorTipo(Integer idTipoProducto){
+
+        List<Producto> producto = productoRepository.findAll();
+
+            Comparator<Producto> ordenarPrecio = Comparator.comparing(Producto::getPrd_precio, Comparator.reverseOrder());
+
+            List<Producto> productoTemp = producto.stream()
+                    .filter(p->(p.getPrd_tip_id()==idTipoProducto))
+                    .collect(Collectors.toList());
+
+            if (productoTemp.size() < 1){
+                Producto temp = new Producto(0, "No hay productos para ese ID de Tipo", 0, 0, 0);
+                productoTemp.add(temp);
+
+                List<ProductoDto> productoDtos = productoTemp.stream().map(prd -> {
+                    return new ProductoDto(prd.getPrd_id(), prd.getPrd_descripcion(), prd.getPrd_tip_id(), prd.getPrd_stock(), prd.getPrd_precio());
+                }).collect(Collectors.toList());
+                return productoDtos;
+            }
+            else{
+                List<ProductoDto> productoDtos = productoTemp.stream()
+                        .sorted(ordenarPrecio)
+                        .map(prd -> {
+                            return new ProductoDto(prd.getPrd_id(), prd.getPrd_descripcion(), prd.getPrd_tip_id(), prd.getPrd_stock(), prd.getPrd_precio());
+                        }).collect(Collectors.toList());
+                return productoDtos;
+            }
+    }
 }
