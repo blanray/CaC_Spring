@@ -1,5 +1,6 @@
 package com.example.CrudPB.service;
 
+import com.example.CrudPB.dto.response.SuccessDto;
 import com.example.CrudPB.dto.response.TipoProductoDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class IntegrationTestTipo {
     @Test
     public void  testBuscarTipoId() throws Exception{
 
-        Integer idTemp = 23;
+        Integer idTemp = 32; //Este test solo es exitoso si la lista no esta vacia y el ID que se pasa existe
 
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/buscar/tiposPorID/" + idTemp))
@@ -60,5 +61,25 @@ public class IntegrationTestTipo {
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType("application/json"));
     }
+
+    @Test
+    public void testBorrarAllTipo() throws Exception{
+//Este test es exitoso solo si se puede vaciar la lista de Tipos porque no hay Productos asociados.
+        SuccessDto expectedDto = new SuccessDto("Se ha vaciado exitosamente la lista de Tipos de Producto");
+
+        ObjectWriter objetoTemp = new ObjectMapper()
+                .configure(SerializationFeature.WRAP_ROOT_VALUE , false)
+                .writer().withDefaultPrettyPrinter();
+
+        String tempJson = objetoTemp.writeValueAsString(expectedDto);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/borrar/tipoProductos"))
+                .andDo(print())
+                .andExpect(status().isAccepted())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.mensaje").value(expectedDto.getMensaje()));
+    }
+
+
 
 }

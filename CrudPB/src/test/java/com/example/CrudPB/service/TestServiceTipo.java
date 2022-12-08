@@ -1,8 +1,8 @@
 package com.example.CrudPB.service;
 
+import com.example.CrudPB.dto.response.SuccessDto;
 import com.example.CrudPB.dto.response.TipoProductoDto;
 import com.example.CrudPB.entities.TipoProducto;
-import com.example.CrudPB.repository.IProductoRepository;
 import com.example.CrudPB.repository.ITipoProductoRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -38,6 +38,19 @@ void probarFindAllTipo(){
         assertEquals(listaTemp.size(),listaResultado.size());
     });
 }
+
+@Test
+void probarDeleteAllTipo(){
+
+    SuccessDto dtoResult = tipoProductoService.borrarAllTipos();
+    SuccessDto dtoExpected = new SuccessDto("Se ha vaciado exitosamente la lista de Tipos de Producto");
+
+    Assertions.assertAll(()->{
+        assertEquals(dtoExpected, dtoResult);
+    });
+}
+
+
 
 
 }
