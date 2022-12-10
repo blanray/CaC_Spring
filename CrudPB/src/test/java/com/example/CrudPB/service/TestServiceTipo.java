@@ -4,12 +4,14 @@ import com.example.CrudPB.dto.response.SuccessDto;
 import com.example.CrudPB.dto.response.TipoProductoDto;
 import com.example.CrudPB.entities.TipoProducto;
 import com.example.CrudPB.repository.ITipoProductoRepository;
+import com.example.CrudPB.repository.TipoProductoRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
@@ -25,8 +27,10 @@ public class TestServiceTipo {
 
     @InjectMocks
     private TipoProductoService tipoProductoService;
+//    @Autowired
+//    private TipoProductoRepository tipoProductoRepository;
 
-@Test
+    @Test
 void probarFindAllTipo(){
 
     List<TipoProducto> listaTemp = tipoProductoRepository.findAll();
@@ -49,8 +53,6 @@ void probarDeleteAllTipo(){
         assertEquals(dtoExpected, dtoResult);
     });
 }
-
-
 
 
 }
