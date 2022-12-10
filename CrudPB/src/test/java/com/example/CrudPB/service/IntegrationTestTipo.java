@@ -2,17 +2,13 @@ package com.example.CrudPB.service;
 
 import com.example.CrudPB.dto.response.SuccessDto;
 import com.example.CrudPB.dto.response.TipoProductoDto;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
+
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -20,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import javax.servlet.http.HttpServletResponse;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -51,9 +46,6 @@ public class IntegrationTestTipo {
 
         /*if (resultado.getResponse().getStatus() == 200) {
             Assertions.assertAll(resultado.getResponse().getContentType(), (Executable) content().contentType("\"application/json\""));
-        }
-        else{
-            Assertions.assertAll(String.valueOf(resultado.getResponse().getStatus()), (Executable) status().isNotFound());
         }*/
 
     }
@@ -79,22 +71,53 @@ public class IntegrationTestTipo {
 
     @Test
     public void testBorrarAllTipo() throws Exception{
-//Este test es exitoso solo si se puede vaciar la lista de Tipos porque no hay Productos asociados.
-        SuccessDto expectedDto = new SuccessDto("Se ha vaciado exitosamente la lista de Tipos de Producto");
+//Este test es exitoso solo si se puede vaciar la lista de Tipos porque no hay Productos asociados.por lo que no hago la verificacion del texto
+//        SuccessDto expectedDto = new SuccessDto("Se ha vaciado exitosamente la lista de Tipos de Producto");
 
         ObjectWriter objetoTemp = new ObjectMapper()
                 .configure(SerializationFeature.WRAP_ROOT_VALUE , false)
                 .writer().withDefaultPrettyPrinter();
 
-        String tempJson = objetoTemp.writeValueAsString(expectedDto);
+//        String tempJson = objetoTemp.writeValueAsString(expectedDto);
 
         this.mockMvc.perform(MockMvcRequestBuilders.delete("/borrar/tipoProductos"))
                 .andDo(print())
                 .andExpect(status().isAccepted())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.mensaje").value(expectedDto.getMensaje()));
+                .andExpect(content().contentType("application/json"));
+//                .andExpect(jsonPath("$.mensaje").value(expectedDto.getMensaje()));
     }
 
+    @Test
+    public void testActualizarTipoId() throws Exception{
+
+        TipoProductoDto tipoTemp = new TipoProductoDto(32, "Prueba desde Test");
+//le paso un id que puede no existir y retorna lo que se espera
+        ObjectWriter objetoTemp = new ObjectMapper()
+                .configure(SerializationFeature.WRAP_ROOT_VALUE , false)
+                .writer().withDefaultPrettyPrinter();
+
+        String tempJson = objetoTemp.writeValueAsString(tipoTemp);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/actualizar/tipoPorID/" + tipoTemp.getTip_id())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(tempJson))
+                .andDo(print())
+//                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"));
+    }
+
+    @Test
+    public void testBorrarTipoId() throws Exception{
+
+        Integer idTemp = 32; //Este test solo es exitoso si la lista no esta vacia y el ID que se pasa existe
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/borrar/tipoProducto/" + idTemp))
+                .andDo(print())
+                //        .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"));
+
+
+    }
 
 
 }
