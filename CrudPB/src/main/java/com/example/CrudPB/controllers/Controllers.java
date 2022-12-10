@@ -37,6 +37,7 @@ public class Controllers {
         ReqProductoIDDto reqProductoIDDto = new ReqProductoIDDto(id);
         return new ResponseEntity<>(productoService.actualizaroPorID(reqProductoIDDto.getId(), ProductoDto), HttpStatus.OK);
     }
+
     @PostMapping("/borrar/producto/{id}")
     public ResponseEntity<?> borrarProducto(@PathVariable Integer id){
         ReqProductoIDDto reqProductoIDDto = new ReqProductoIDDto(id);
