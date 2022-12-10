@@ -2,18 +2,25 @@ package com.example.CrudPB.service;
 
 import com.example.CrudPB.dto.response.SuccessDto;
 import com.example.CrudPB.dto.response.TipoProductoDto;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+import javax.servlet.http.HttpServletResponse;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,8 +46,16 @@ public class IntegrationTestTipo {
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/buscar/tiposPorID/" + idTemp))
                 .andDo(print())
-                .andExpect(status().isOk())
+        //        .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
+
+        /*if (resultado.getResponse().getStatus() == 200) {
+            Assertions.assertAll(resultado.getResponse().getContentType(), (Executable) content().contentType("\"application/json\""));
+        }
+        else{
+            Assertions.assertAll(String.valueOf(resultado.getResponse().getStatus()), (Executable) status().isNotFound());
+        }*/
+
     }
 
     @Test
