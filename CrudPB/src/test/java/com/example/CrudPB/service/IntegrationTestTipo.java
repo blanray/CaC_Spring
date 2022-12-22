@@ -1,6 +1,6 @@
 package com.example.CrudPB.service;
 
-import com.example.CrudPB.dto.response.SuccessDto;
+
 import com.example.CrudPB.dto.response.TipoProductoDto;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

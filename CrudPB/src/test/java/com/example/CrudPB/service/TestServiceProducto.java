@@ -3,6 +3,7 @@ package com.example.CrudPB.service;
 import com.example.CrudPB.dto.response.ProductoDto;
 import com.example.CrudPB.dto.response.SuccessDto;
 import com.example.CrudPB.entities.Producto;
+import com.example.CrudPB.exceptions.RecordNotFoundException;
 import com.example.CrudPB.repository.ProductoRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +36,7 @@ public class TestServiceProducto {
     @Test
     @Order(1)
     @DisplayName("Test Servicio Find All")
-    void probarFindAll(){
+    void probarListarProductos(){
 
         List<Producto> listaTemp = productoRepository.findAll();
 
@@ -50,7 +51,7 @@ public class TestServiceProducto {
     @Test
     @Order(2)
     @DisplayName("Test Servicio Buscar Producto por ID")
-    void probarFindByID(){
+    void probarEncontrarProductoPorID(){
 
         Integer idTemp = 2;
         Optional<Producto> miTemp = Optional.of(new Producto());
@@ -64,9 +65,9 @@ public class TestServiceProducto {
     }
 
     @Test
-    @Order(3)
+    @Order(8)
     @DisplayName("Test Servicio Borrar All")
-    void probarDeleteAllProductos(){
+    void probarBorrarAllProductos(){
 
         SuccessDto dtoResult = productoService.borrarAllProductos();
         SuccessDto dtoExpected = new SuccessDto("Se ha vaciado exitosamente la lista de Productos");
@@ -100,6 +101,90 @@ public class TestServiceProducto {
         Assertions.assertAll(()->{
             assertNotNull(listaResultado);
         });
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("Test Servicio Crear Producto")
+    void probarCrearProducto(){
+
+        ProductoDto miProductoTemp = new ProductoDto(0,"Prueba desde test", 0 , 111, 1111);
+
+        try{
+            ProductoDto miRespuesta = productoService.crearProducto(miProductoTemp);
+
+            Assertions.assertAll(()->{
+                assertEquals(miRespuesta.getPrd_descripcion(), miProductoTemp.getPrd_descripcion());
+            });}
+        catch (NullPointerException e){
+            Assertions.assertAll(()->{
+                assertNotNull(e);
+            });}
+
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("Test Servicio Borrar Producto por ID")
+    void probarBorrarProducto() {
+
+        Integer idTemp = 6;
+
+        try {
+
+            Optional<SuccessDto> resultadoDto = Optional.of(productoService.borrarProducto(idTemp));
+
+            if (resultadoDto.isPresent()) {
+
+                Assertions.assertAll(() -> {
+                    assertNotNull(resultadoDto);
+                });
+            }
+        } catch (RecordNotFoundException e) {
+            Assertions.assertAll(() -> {
+                assertEquals("No se encontro el Producto, con ID valor : '6'", e.getMessage());
+            });
+        }
+
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("Test Servicio Actualizar Producto por ID")
+    void probarActualizarPorID(){
+
+        Integer idTemp = 2;
+        Optional<Producto> miTemp = Optional.of(new Producto());
+
+        when(productoRepository.findById(idTemp)).thenReturn(miTemp);
+
+        if (miTemp.isPresent()) {
+
+            miTemp.get().setPrd_descripcion("Prueba desde Test");
+            miTemp.get().setPrd_tip_id(3);
+            miTemp.get().setPrd_precio(1111);
+            miTemp.get().setPrd_stock(111);
+            Producto miTempSave = productoRepository.save(miTemp.get());
+
+            Optional<ProductoDto> tipoResultado = Optional.of(productoService.encontrarProductoPorID(idTemp));
+
+            if (tipoResultado.isPresent()){
+
+                ProductoDto miProductoDtoTemp = new ProductoDto(tipoResultado.get().getPrd_id(), tipoResultado.get().getPrd_descripcion(), tipoResultado.get().getPrd_tip_id(), tipoResultado.get().getPrd_stock(), tipoResultado.get().getPrd_precio());
+                miProductoDtoTemp.setPrd_descripcion("Prueba desde Test");
+                miProductoDtoTemp.setPrd_tip_id(3);
+                miProductoDtoTemp.setPrd_stock(111);
+                miProductoDtoTemp.setPrd_precio(1111);
+                ProductoDto miTipoSave = productoService.actualizaroPorID(idTemp, miProductoDtoTemp);
+
+                Assertions.assertAll(() -> {
+                    assertEquals(miProductoDtoTemp.getPrd_descripcion(), miTipoSave.getPrd_descripcion());
+                });
+
+            }
+
+        }
+
     }
 
 

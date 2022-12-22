@@ -1,5 +1,6 @@
 package com.example.CrudPB.service;
 
+import org.junit.jupiter.api.*;
 import com.example.CrudPB.dto.response.ProductoDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -32,6 +33,7 @@ public class IntegrationTestProducto {
     private MockMvc mockMvc;
 
     @Test
+    @Order(1)
     @DisplayName("Test EP Listar Productos")
     public void testListarProductos() throws Exception{
 
@@ -42,6 +44,7 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @Order(2)
     @DisplayName("Test EP Crear Producto")
     public void testCrearTipo() throws Exception{
 
@@ -62,6 +65,7 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @Order(3)
     @DisplayName("Test EP Buscar Producto por ID")
     public void  testBuscarProductoId() throws Exception{
 
@@ -76,6 +80,7 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @Order(4)
     @DisplayName("Test EP Actualizar Producto por ID")
     public void testActualizarProductoId() throws Exception{
 
@@ -94,6 +99,7 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @Order(5)
     @DisplayName("Test EP Borrar Producto ID")
     public void testBorrarProductoId() throws Exception{
 
@@ -106,6 +112,7 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @Order(8)
     @DisplayName("Test EP Borrar All Productos")
     public void testBorrarAllProducto() throws Exception{
 
@@ -116,6 +123,7 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @Order(6)
     @DisplayName("Test EP Top 5 Stock - Consigna 1")
     public void testListarProductosTop5() throws Exception{
 
@@ -126,6 +134,7 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @Order(7)
     @DisplayName("Test EP Buscar Productos por Tipo - Consigna 2")
     public void  testBuscarProductoTipoId() throws Exception{
 
