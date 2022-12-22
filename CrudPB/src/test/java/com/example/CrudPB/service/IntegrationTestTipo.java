@@ -2,11 +2,13 @@ package com.example.CrudPB.service;
 
 import com.example.CrudPB.dto.response.SuccessDto;
 import com.example.CrudPB.dto.response.TipoProductoDto;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -19,12 +21,17 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestPropertySource(properties = {"SCOPE = integration_test"})
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class IntegrationTestTipo {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
+    @Order(1)
+    @DisplayName("Test EP Listar Tipos")
     public void testListarTipos() throws Exception{
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/listar/tiposProductos"))
@@ -34,9 +41,11 @@ public class IntegrationTestTipo {
     }
 
     @Test
+    @Order(2)
+    @DisplayName("Test EP Buscar Tipo por ID")
     public void  testBuscarTipoId() throws Exception{
 
-        Integer idTemp = 32; //Este test solo es exitoso si la lista no esta vacia y el ID que se pasa existe
+        Integer idTemp = 9;
 
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/buscar/tiposPorID/" + idTemp))
@@ -51,9 +60,12 @@ public class IntegrationTestTipo {
     }
 
     @Test
+    @Order(3)
+    @DisplayName("Test EP Crear Tipo")
     public void testCrearTipo() throws Exception{
 
-        TipoProductoDto tipoTemp = new TipoProductoDto(0, "Prueba desde Test");
+        TipoProductoDto tipoTemp = new TipoProductoDto();
+        tipoTemp.setTip_descripcion("Prueba desde Test");
 
         ObjectWriter objetoTemp = new ObjectMapper()
                 .configure(SerializationFeature.WRAP_ROOT_VALUE , false)
@@ -70,6 +82,8 @@ public class IntegrationTestTipo {
     }
 
     @Test
+    @Order(6)
+    @DisplayName("Test EP Borrar All Tipos")
     public void testBorrarAllTipo() throws Exception{
 //Este test es exitoso solo si se puede vaciar la lista de Tipos porque no hay Productos asociados.por lo que no hago la verificacion del texto
 //        SuccessDto expectedDto = new SuccessDto("Se ha vaciado exitosamente la lista de Tipos de Producto");
@@ -88,10 +102,12 @@ public class IntegrationTestTipo {
     }
 
     @Test
+    @Order(4)
+    @DisplayName("Test EP Actualizar Tipo por ID")
     public void testActualizarTipoId() throws Exception{
 
-        TipoProductoDto tipoTemp = new TipoProductoDto(32, "Prueba desde Test");
-//le paso un id que puede no existir y retorna lo que se espera
+        TipoProductoDto tipoTemp = new TipoProductoDto(8, "Prueba desde Test");
+
         ObjectWriter objetoTemp = new ObjectMapper()
                 .configure(SerializationFeature.WRAP_ROOT_VALUE , false)
                 .writer().withDefaultPrettyPrinter();
@@ -102,14 +118,16 @@ public class IntegrationTestTipo {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(tempJson))
                 .andDo(print())
-//                .andExpect(status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
     }
 
     @Test
+    @Order(5)
+    @DisplayName("Test EP Borrar Tipo por ID")
     public void testBorrarTipoId() throws Exception{
 
-        Integer idTemp = 32; //Este test solo es exitoso si la lista no esta vacia y el ID que se pasa existe
+        Integer idTemp = 3; //Este test solo es exitoso si la lista no esta vacia y el ID que se pasa existe
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/borrar/tipoProducto/" + idTemp))
                 .andDo(print())

@@ -7,6 +7,7 @@ import com.example.CrudPB.entities.TipoProducto;
 import com.example.CrudPB.exceptions.RecordNotFoundException;
 import com.example.CrudPB.repository.ITipoProductoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +42,15 @@ public class TipoProductoService implements ITipoProductoService {
     @Override
     public TipoProductoDto crearTipoProducto(TipoProductoDto tipoProductoDto){
         TipoProducto miTemporal = new TipoProducto(tipoProductoDto.getTip_id(), tipoProductoDto.getTip_descripcion());
-        TipoProducto miTemp = tipoProductoRepository.save(miTemporal);
-        TipoProductoDto miElementoCreado = new TipoProductoDto(miTemp.getTip_id(), miTemp.getTip_descripcion());
+        TipoProductoDto miElementoCreado;
+
+        try{
+            TipoProducto miTemp = tipoProductoRepository.save(miTemporal);
+            miElementoCreado = new TipoProductoDto(miTemp.getTip_id(), miTemp.getTip_descripcion());
+        }
+        catch(DataAccessException e){
+            miElementoCreado = new TipoProductoDto(0,"Error, no se pudo crear el Tipo de Producto");
+        }
         return miElementoCreado ;
     }
 

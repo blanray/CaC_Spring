@@ -1,15 +1,19 @@
 package com.example.CrudPB.service;
 
 import com.example.CrudPB.dto.response.ProductoDto;
-import com.example.CrudPB.dto.response.TipoProductoDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -19,12 +23,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestPropertySource(properties = {"SCOPE = integration_test"})
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class IntegrationTestProducto {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
+    @DisplayName("Test EP Listar Productos")
     public void testListarProductos() throws Exception{
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/listar/productos"))
@@ -34,9 +42,10 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @DisplayName("Test EP Crear Producto")
     public void testCrearTipo() throws Exception{
 
-        ProductoDto productoTemp = new ProductoDto(0, "Prueba desde Test", 0, 33, 33);
+        ProductoDto productoTemp = new ProductoDto(0, "Prueba desde Test", 7, 33, 33);
 
         ObjectWriter objetoTemp = new ObjectMapper()
                 .configure(SerializationFeature.WRAP_ROOT_VALUE , false)
@@ -53,9 +62,10 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @DisplayName("Test EP Buscar Producto por ID")
     public void  testBuscarProductoId() throws Exception{
 
-        Integer idTemp = 32;
+        Integer idTemp = 10;
 
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/buscar/productosID/" + idTemp))
@@ -66,9 +76,10 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @DisplayName("Test EP Actualizar Producto por ID")
     public void testActualizarProductoId() throws Exception{
 
-        ProductoDto productoTemp = new ProductoDto(0, "Prueba desde Test", 0, 33, 33);
+        ProductoDto productoTemp = new ProductoDto(2, "Prueba desde Test", 10, 33, 33);
         ObjectWriter objetoTemp = new ObjectMapper()
                 .configure(SerializationFeature.WRAP_ROOT_VALUE , false)
                 .writer().withDefaultPrettyPrinter();
@@ -83,9 +94,10 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @DisplayName("Test EP Borrar Producto ID")
     public void testBorrarProductoId() throws Exception{
 
-        Integer idTemp = 40;
+        Integer idTemp = 11;
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/borrar/producto/" + idTemp))
                 .andDo(print())
@@ -94,6 +106,7 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @DisplayName("Test EP Borrar All Productos")
     public void testBorrarAllProducto() throws Exception{
 
         this.mockMvc.perform(MockMvcRequestBuilders.delete("/borrar/productos"))
@@ -103,6 +116,7 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @DisplayName("Test EP Top 5 Stock - Consigna 1")
     public void testListarProductosTop5() throws Exception{
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/listar/productos/top5"))
@@ -112,9 +126,10 @@ public class IntegrationTestProducto {
     }
 
     @Test
+    @DisplayName("Test EP Buscar Productos por Tipo - Consigna 2")
     public void  testBuscarProductoTipoId() throws Exception{
 
-        Integer idTemp = 38;
+        Integer idTemp = 8;
 
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/listar/productosTipo/" + idTemp))
