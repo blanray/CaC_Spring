@@ -147,5 +147,26 @@ public class IntegrationTestProducto {
                 .andExpect(content().contentType("application/json"));
     }
 
+    @Test
+    @Order(9)
+    @DisplayName("Test EP Crear Producto con error en el Body para validacion")
+    public void testCrearTipoConError() throws Exception{
+
+        ProductoDto productoTemp = new ProductoDto(0, "P", 7, -1, -1);
+
+        ObjectWriter objetoTemp = new ObjectMapper()
+                .configure(SerializationFeature.WRAP_ROOT_VALUE , false)
+                .writer().withDefaultPrettyPrinter();
+
+        String tempJson = objetoTemp.writeValueAsString(productoTemp);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/crear/productos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(tempJson))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"));
+    }
+
 
 }

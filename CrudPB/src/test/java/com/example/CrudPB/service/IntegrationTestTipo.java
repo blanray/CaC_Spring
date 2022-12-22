@@ -137,5 +137,27 @@ public class IntegrationTestTipo {
 
     }
 
+    @Test
+    @Order(7)
+    @DisplayName("Test EP Crear Tipo con un error en el Body para validar")
+    public void testCrearTipoDtoConErrores() throws Exception{
+
+        TipoProductoDto tipoTemp = new TipoProductoDto();
+        tipoTemp.setTip_descripcion("T");
+
+        ObjectWriter objetoTemp = new ObjectMapper()
+                .configure(SerializationFeature.WRAP_ROOT_VALUE , false)
+                .writer().withDefaultPrettyPrinter();
+
+        String tempJson = objetoTemp.writeValueAsString(tipoTemp);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/crear/tiposProductos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(tempJson))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"));
+    }
+
 
 }
