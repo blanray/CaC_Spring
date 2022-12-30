@@ -14,3 +14,9 @@ Todos los EP y los metodos de los servicios estan probados con test unitarios y 
 Los test se hacen en H2 y la BBDD se implementa en mysql.
 Se adjunta esquema exportado de workbench.
 
+- Update 29/12/22: Se agrega JWT implementado con tablas en MySQL y repositorio JPA con relacion Many to Many.
+                  Se actualizaron todos los EP para jugar con los tres perfiles de acceso en JWT, otorgando ciertos EP a cada perfil.
+                  Se actualizan los archivos de application properties para que se configuren las tablas productivas de MySQL con datos y las tablas de test en H2 con datos de prueba.
+                  Se agrega test para el EP de login.
+                  
+
