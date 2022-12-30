@@ -1,3 +1,13 @@
+DELETE from `productos`;
+
+DELETE from `tipos_producto`;
+
+DELETE from `users_roles`;
+
+DELETE from `users`;
+
+DELETE from `rol`;
+
 INSERT INTO `tipos_producto`
 (`tip_id`, `tip_descripcion`)
 VALUES
@@ -31,3 +41,19 @@ VALUES
     (14, 'ProduccionProdTipo14', 10, 141, 14114),
     (15, 'ProduccionProdTipo15', 1, 151, 15115),
     (16, 'ProduccionProdTipo16', 3, 161, 16116);
+
+INSERT INTO `rol`(`rol_id`, `rol_descripcion`)
+values (1, 'EMPLEADO'),
+       (2, 'GERENTE'),
+       (3, 'ADMIN');
+
+INSERT INTO `users`(`usr_id`, `usr_username`, `usr_password`)
+values (1, 'Empleado1', '123'),
+       (2, 'Gerente1', '123'),
+       (3, 'Admin1', '123');
+
+insert into `users_roles`
+(user_usr_id, roles_rol_id) values (1,1), (2,2), (3,3);
+
+
+

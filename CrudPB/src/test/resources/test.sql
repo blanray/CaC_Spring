@@ -27,3 +27,16 @@ VALUES
     (10, 'ProdTipo10', 4, 101, 10110),
     (11, 'ProdTipo11', 10, 11, 11111);
 
+
+INSERT INTO `rol`(`rol_id`, `rol_descripcion`)
+values (1, 'EMPLEADO'),
+       (2, 'GERENTE'),
+       (3, 'ADMIN');
+
+INSERT INTO `users`(`usr_id`, `usr_username`, `usr_password`)
+values (1, 'Empleado1', '123'),
+       (2, 'Gerente1', '123'),
+       (3, 'Admin1', '123');
+
+insert into `users_roles`
+(user_usr_id, roles_rol_id) values (1,1), (2,2), (3,3);

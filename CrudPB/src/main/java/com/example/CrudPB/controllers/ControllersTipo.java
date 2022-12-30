@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@RequestMapping(path = "/CrudPB")
 @RestController
 public class ControllersTipo {
 

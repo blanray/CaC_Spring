@@ -34,7 +34,7 @@ public class IntegrationTestTipo {
     @DisplayName("Test EP Listar Tipos")
     public void testListarTipos() throws Exception{
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/listar/tiposProductos"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/CrudPB/listar/tiposProductos"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
@@ -48,7 +48,7 @@ public class IntegrationTestTipo {
         Integer idTemp = 9;
 
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/buscar/tiposPorID/" + idTemp))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/CrudPB/buscar/tiposPorID/" + idTemp))
                 .andDo(print())
         //        .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
@@ -73,7 +73,7 @@ public class IntegrationTestTipo {
 
         String tempJson = objetoTemp.writeValueAsString(tipoTemp);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/crear/tiposProductos")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/CrudPB/crear/tiposProductos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(tempJson))
                 .andDo(print())
@@ -94,7 +94,7 @@ public class IntegrationTestTipo {
 
 //        String tempJson = objetoTemp.writeValueAsString(expectedDto);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.delete("/borrar/tipoProductos"))
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/CrudPB/borrar/tipoProductos"))
                 .andDo(print())
                 .andExpect(status().isAccepted())
                 .andExpect(content().contentType("application/json"));
@@ -114,7 +114,7 @@ public class IntegrationTestTipo {
 
         String tempJson = objetoTemp.writeValueAsString(tipoTemp);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/actualizar/tipoPorID/" + tipoTemp.getTip_id())
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/CrudPB/actualizar/tipoPorID/" + tipoTemp.getTip_id())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(tempJson))
                 .andDo(print())
@@ -129,7 +129,7 @@ public class IntegrationTestTipo {
 
         Integer idTemp = 3; //Este test solo es exitoso si la lista no esta vacia y el ID que se pasa existe
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/borrar/tipoProducto/" + idTemp))
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/CrudPB/borrar/tipoProducto/" + idTemp))
                 .andDo(print())
                 //        .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
@@ -151,7 +151,7 @@ public class IntegrationTestTipo {
 
         String tempJson = objetoTemp.writeValueAsString(tipoTemp);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/crear/tiposProductos")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/CrudPB/crear/tiposProductos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(tempJson))
                 .andDo(print())

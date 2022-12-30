@@ -37,7 +37,7 @@ public class IntegrationTestProducto {
     @DisplayName("Test EP Listar Productos")
     public void testListarProductos() throws Exception{
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/listar/productos"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/CrudPB/listar/productos"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
@@ -56,7 +56,7 @@ public class IntegrationTestProducto {
 
         String tempJson = objetoTemp.writeValueAsString(productoTemp);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/crear/productos")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/CrudPB/crear/productos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(tempJson))
                 .andDo(print())
@@ -72,7 +72,7 @@ public class IntegrationTestProducto {
         Integer idTemp = 10;
 
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/buscar/productosID/" + idTemp))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/CrudPB/buscar/productosID/" + idTemp))
                 .andDo(print())
                 //        .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
@@ -91,7 +91,7 @@ public class IntegrationTestProducto {
 
         String tempJson = objetoTemp.writeValueAsString(productoTemp);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/actualizar/PorID/" + productoTemp.getPrd_id())
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/CrudPB/actualizar/PorID/" + productoTemp.getPrd_id())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(tempJson))
                 .andDo(print())
@@ -105,7 +105,7 @@ public class IntegrationTestProducto {
 
         Integer idTemp = 11;
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/borrar/producto/" + idTemp))
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/CrudPB/borrar/producto/" + idTemp))
                 .andDo(print())
                 //        .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
@@ -116,7 +116,7 @@ public class IntegrationTestProducto {
     @DisplayName("Test EP Borrar All Productos")
     public void testBorrarAllProducto() throws Exception{
 
-        this.mockMvc.perform(MockMvcRequestBuilders.delete("/borrar/productos"))
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/CrudPB/borrar/productos"))
                 .andDo(print())
                 .andExpect(status().isAccepted())
                 .andExpect(content().contentType("application/json"));
@@ -127,7 +127,7 @@ public class IntegrationTestProducto {
     @DisplayName("Test EP Top 5 Stock - Consigna 1")
     public void testListarProductosTop5() throws Exception{
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/listar/productos/top5"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/CrudPB/listar/productos/top5"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
@@ -141,7 +141,7 @@ public class IntegrationTestProducto {
         Integer idTemp = 8;
 
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/listar/productosTipo/" + idTemp))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/CrudPB/listar/productosTipo/" + idTemp))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
@@ -160,7 +160,7 @@ public class IntegrationTestProducto {
 
         String tempJson = objetoTemp.writeValueAsString(productoTemp);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/crear/productos")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/CrudPB/crear/productos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(tempJson))
                 .andDo(print())
